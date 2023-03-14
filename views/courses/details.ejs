@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs') %>
+  <body class="bg-dark">
+    <%- include('../partials/nav.ejs') %>
+
+    <section
+      class="bg-dark text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start"
+    >
+      <div class="container">
+        <div class="d-sm-flex align-items-center justify-content-between">
+          <div class="details content">
+            <h2><%= course.title %></h2>
+            <h3>Subject: <%= course.subject %></h3>
+            <h4>Credits: <%= course.credits %></h4>
+            <div class="content">
+              <p><%= course.description %></p>
+            </div>
+            <div class="course-options">
+              <a class="update" href="/courses/<%= course._id %>/update"
+                >Update</a
+              >
+              <a class="delete" data-doc="<%= course._id %>"> Delete </a>
+            </div>
+          </div>
+          <form
+            action="/student/<%= user._id %>"
+            method="POST"
+            style="all: initial; all: unset"
+          >
+            <input type="hidden" name="classes" value="<%= course.title %>" />
+            <input type="hidden" name="userID" value="<%= user._id %>" />
+            <button class="addClass" data-doc="<%= user._id %>">
+              Add Course
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+    <%- include('../partials/footer.ejs') %>
+    <script>
+      const trashcan = document.querySelector("a.delete");
+      trashcan.addEventListener("click", (e) => {
+        const endpoint = `/courses/${trashcan.dataset.doc}`;
+        fetch(endpoint, {
+          method: "DELETE",
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            window.location.href = data.redirect;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+    </script>
+  </body>
+</html>

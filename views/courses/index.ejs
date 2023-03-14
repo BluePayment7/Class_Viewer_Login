@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs') %>
+  <body class="bg-dark">
+    <%- include('../partials/nav.ejs') %>
+
+    <section
+      class="bg-dark text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start"
+    >
+      <div class="container">
+        <div class="d-sm-flex align-items-center justify-content-between">
+          <div class="courses content">
+            <div>
+              <form
+                action="/courses/search"
+                method="GET"
+                style="all: initial; all: unset"
+              >
+                <input type="text" name="courseName" placeholder="Search..." />
+                <button class="addClass">Search Courses</button>
+              </form>
+            </div>
+
+            <h2 class="mt-5">All Courses</h2>
+
+            <% if (courses.length > 0) { %> <% courses.forEach(course => { %>
+            <a class="single" href="/courses/<%= course._id %>">
+              <h3 class="title"><%= course.title %></h3>
+              <p class="subject"><%= course.subject %></p>
+            </a>
+
+            <% }) %> <% } else { %>
+            <p>There are no courses to dispay!</p>
+            <% } %>
+          </div>
+          <img
+            class="img-fluid w-50 d-none d-sm-block px-5"
+            src="img/classroom.svg"
+            alt=""
+          />
+        </div>
+      </div>
+    </section>
+    <%- include('../partials/footer.ejs') %>
+  </body>
+</html>
